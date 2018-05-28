@@ -1,7 +1,7 @@
 import { Dimensions } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 
-const imageWidth = Dimensions.get('window').width / 2
+const imageWidth = Dimensions.get('window').width / 2 // sets the imageWidth to half the width of the window
 
 export default EStyleSheet.create({
   container: {

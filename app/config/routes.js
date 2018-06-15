@@ -11,7 +11,10 @@ export default StackNavigator({
     }
   },
   CurrencyList: {
-    screen: CurrencyList
+    screen: CurrencyList,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: navigation.state.params.title
+    })
   }
 },
   {

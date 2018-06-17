@@ -12,8 +12,6 @@ import { Header } from '../components/Header'
 
 import { swapCurrency, changeCurrencyAmount } from '../actions/currencies'
 
-const TEMP_CONVERSION_RATE = 0.7974
-const TEMP_LAST_CONVERTED = new Date()
 
 class Home extends Component {
 	static propTypes = {
@@ -22,7 +20,9 @@ class Home extends Component {
 		baseCurrency: PropTypes.string,
 		quoteCurrency: PropTypes.string,
 		amount: PropTypes.number,
-		conversionRate: PropTypes.number
+		conversionRate: PropTypes.number,
+		isFetching: PropTypes.bool,
+		lastConvertedDate: PropTypes.object
 	}
 	handlePressBaseCurrency = () => {
 		this.props.navigation.navigate('CurrencyList', { title: 'Base Currency' })
@@ -46,6 +46,9 @@ class Home extends Component {
 
 	render() {
 		let quotePrice = (this.props.amount * this.props.conversionRate).toFixed(2)
+		if (this.props.isFetching) {
+			quotePrice = '...'
+		}
 
 		return (
 			<Container>
@@ -71,8 +74,8 @@ class Home extends Component {
 					<LastConverted
 						base={this.props.baseCurrency}
 						quote={this.props.quoteCurrency}
-						date={TEMP_LAST_CONVERTED}
-						conversionRate={TEMP_CONVERSION_RATE}
+						date={this.props.LastConverted}
+						conversionRate={this.props.conversionRate}
 					/>
 					<ClearButton
 						text="Reverse Currencies"
@@ -95,7 +98,9 @@ const mapStateToProps = (state) => {
 		baseCurrency,
 		quoteCurrency,
 		amount,
-		conversionRate: rates[quoteCurrency] || 0
+		conversionRate: rates[quoteCurrency] || 0,
+		isFetching: conversionSelector.isFetching,
+		lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date()
 	}
 }
 

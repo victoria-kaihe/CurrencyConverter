@@ -12,8 +12,6 @@ import { Header } from '../components/Header'
 
 import { swapCurrency, changeCurrencyAmount } from '../actions/currencies'
 
-const TEMP_BASE_PRICE = '100'
-const TEMP_QUOTE_PRICE = '79.74'
 const TEMP_CONVERSION_RATE = 0.7974
 const TEMP_LAST_CONVERTED = new Date()
 
@@ -22,7 +20,9 @@ class Home extends Component {
 		navigation: PropTypes.object,
 		dispatch: PropTypes.func,
 		baseCurrency: PropTypes.string,
-		quoteCurrency: PropTypes.string
+		quoteCurrency: PropTypes.string,
+		amount: PropTypes.number,
+		conversionRate: PropTypes.number
 	}
 	handlePressBaseCurrency = () => {
 		this.props.navigation.navigate('CurrencyList', { title: 'Base Currency' })
@@ -45,6 +45,8 @@ class Home extends Component {
 	}
 
 	render() {
+		let quotePrice = (this.props.amount * this.props.conversionRate).toFixed(2)
+
 		return (
 			<Container>
 				<StatusBar translucent={false} barStyle="light-content" />
@@ -56,7 +58,7 @@ class Home extends Component {
 					<InputWithButton
 						buttonText={this.props.baseCurrency}
 						onPress={this.handlePressBaseCurrency}
-						defaultValue={TEMP_BASE_PRICE}
+						defaultValue={this.props.amount.toString()}
 						keyboardType='numeric'
 						onChangeText={this.handleTextChange}
 					/>
@@ -64,7 +66,7 @@ class Home extends Component {
 						buttonText={this.props.quoteCurrency}
 						editable={false}
 						onPress={this.handlePressQuoteCurrency}
-						value={TEMP_QUOTE_PRICE}
+						value={quotePrice}
 					/>
 					<LastConverted
 						base={this.props.baseCurrency}
@@ -85,10 +87,15 @@ class Home extends Component {
 const mapStateToProps = (state) => {
 	const baseCurrency = state.currencies.baseCurrency
 	const quoteCurrency = state.currencies.quoteCurrency
+	const amount = state.currencies.amount
+	const conversionSelector = state.currencies.conversions[baseCurrency] || {}
+	const rates = conversionSelector.rates || {}
 
 	return {
 		baseCurrency,
-		quoteCurrency
+		quoteCurrency,
+		amount,
+		conversionRate: rates[quoteCurrency] || 0
 	}
 }
 

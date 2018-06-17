@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import { StatusBar, KeyboardAvoidingView } from 'react-native'
+import { connect } from 'react-redux'
 
 import { Container } from '../components/Container'
 import { Logo } from '../components/Logo'
@@ -20,7 +21,8 @@ const TEMP_LAST_CONVERTED = new Date()
 
 class Home extends Component {
 	static propTypes = {
-		navigation: PropTypes.object
+		navigation: PropTypes.object,
+		dispatch: PropTypes.func
 	}
 	handlePressBaseCurrency = () => {
 		this.props.navigation.navigate('CurrencyList', { title: 'Base Currency' })
@@ -31,13 +33,11 @@ class Home extends Component {
 	}
 
 	handleTextChange = (amount) => {
-		//TODO MAKE THIS WORK
-		console.log(changeCurrencyAmount(amount))
+		this.props.dispatch(changeCurrencyAmount(amount))
 	}
 
 	handleSwapCurrency = () => {
-		//MAKE THIS ACTUALLY WORK
-		console.log(swapCurrency())
+		this.props.dispatch(swapCurrency())
 	}
 
 	handleOptionsPress = () => {
@@ -82,4 +82,4 @@ class Home extends Component {
 	}
 }
 
-export default Home
+export default connect()(Home)

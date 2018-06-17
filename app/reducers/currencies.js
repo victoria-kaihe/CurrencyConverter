@@ -1,6 +1,6 @@
 import { CHANGE_CURRENCY_AMOUNT, SWAP_CURRENCY } from '../actions/currencies'
 
-const initalState = {
+const initialState = {
   baseCurrency: 'USD',
   quoteCurrency: 'GBP',
   amount: 100,

@@ -22,7 +22,8 @@ class Home extends Component {
 		amount: PropTypes.number,
 		conversionRate: PropTypes.number,
 		isFetching: PropTypes.bool,
-		lastConvertedDate: PropTypes.object
+		lastConvertedDate: PropTypes.object,
+		primaryColor: PropTypes.string
 	}
 	handlePressBaseCurrency = () => {
 		this.props.navigation.navigate('CurrencyList', { title: 'Base Currency', type: 'base' })
@@ -57,7 +58,9 @@ class Home extends Component {
 					onPress={this.handleOptionsPress}
 				/>
 				<KeyboardAvoidingView behavior='padding'>
-					<Logo />
+					<Logo
+						tintColor={this.props.primaryColor}
+					/>
 					<InputWithButton
 						buttonText={this.props.baseCurrency}
 						onPress={this.handlePressBaseCurrency}
@@ -100,7 +103,8 @@ const mapStateToProps = (state) => {
 		amount,
 		conversionRate: rates[quoteCurrency] || 0,
 		isFetching: conversionSelector.isFetching,
-		lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date()
+		lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date(),
+		primaryColor: state.theme.primaryColor
 	}
 }
 

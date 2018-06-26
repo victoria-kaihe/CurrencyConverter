@@ -20,9 +20,9 @@ const fetchLatestConversionRates = function* (action) {
     const result = yield response.json()
 
     if (result.error) {
-      yield put({ type:  })
+      yield put({ type: CONVERSION_ERROR, error: e.message })
     } else {
-
+      yield put({ type: CONVERSION_RESULT, result })
     }
   } catch (e) {
     console.log('Saga error', e)

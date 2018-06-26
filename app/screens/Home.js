@@ -9,6 +9,7 @@ import { InputWithButton } from '../components/TextInput'
 import { ClearButton } from '../components/Button'
 import { LastConverted } from '../components/Text'
 import { Header } from '../components/Header'
+import { connectAlert } from '../components/Alert'
 
 import { swapCurrency, changeCurrencyAmount, getInitialConversion } from '../actions/currencies'
 
@@ -23,7 +24,9 @@ class Home extends Component {
 		conversionRate: PropTypes.number,
 		isFetching: PropTypes.bool,
 		lastConvertedDate: PropTypes.object,
-		primaryColor: PropTypes.string
+		primaryColor: PropTypes.string,
+		alertWithType: PropTypes.func,
+		currencyError: PropTypes.string
 	}
 
 	componentWillMount() {
@@ -115,4 +118,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(connectAlert(Home))

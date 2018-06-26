@@ -77,6 +77,10 @@ const reducer = (state = initialState, action) => {
         }
       }
     case CONVERSION_ERROR:
+      return {
+        ...state,
+        error: action.error
+      }
     default:
       return state
   }

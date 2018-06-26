@@ -33,6 +33,12 @@ class Home extends Component {
 		this.props.dispatch(getInitialConversion())
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.currencyError && nextProps.currencyError !== this.props.currencyError) {
+			this.props.alertWithType('error', 'Error', nextProps.currencyError)
+		}
+	}
+
 	handlePressBaseCurrency = () => {
 		this.props.navigation.navigate('CurrencyList', { title: 'Base Currency', type: 'base' })
 	}
@@ -114,7 +120,8 @@ const mapStateToProps = (state) => {
 		conversionRate: rates[quoteCurrency] || 0,
 		isFetching: conversionSelector.isFetching,
 		lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date(),
-		primaryColor: state.theme.primaryColor
+		primaryColor: state.theme.primaryColor,
+		currencyError: state.currencies.error
 	}
 }
 

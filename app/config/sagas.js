@@ -1,9 +1,11 @@
-import { takeEvery, select, call } from 'redux-saga/effects'
+import { takeEvery, select, call, put } from 'redux-saga/effects'
 
 import {
   CHANGE_BASE_CURRENCY,
   GET_INITIAL_CONVERSION,
-  SWAP_CURRENCY
+  SWAP_CURRENCY,
+  CONVERSION_RESULT,
+  CONVERSION_ERROR
 } from '../actions/currencies'
 
 const getLatestRate = currency => fetch(`https://fixer.handlebarlabs.com/latest?base=${currency}`)
@@ -16,6 +18,12 @@ const fetchLatestConversionRates = function* (action) {
     }
     const response = yield call(getLatestRate, currency)
     const result = yield response.json()
+
+    if (result.error) {
+      yield put({ type:  })
+    } else {
+
+    }
   } catch (e) {
     console.log('Saga error', e)
   }

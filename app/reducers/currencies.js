@@ -65,6 +65,17 @@ const reducer = (state = initialState, action) => {
 
       }
     case CONVERSION_RESULT:
+      return {
+        ...state,
+        baseCurrency: action.result.base,
+        conversions: {
+          ...state.conversions,
+          [action.result.base]: {
+            isFetching: false,
+            ...action.result
+          }
+        }
+      }
     case CONVERSION_ERROR:
     default:
       return state
